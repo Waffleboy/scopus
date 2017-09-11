@@ -43,10 +43,9 @@ def download(url, params=None, accept="xml"):
         raise ValueError('accept parameter must be one of ' +
                          ', '.join(accepted))
     try:
-        key = scopus.MY_API_KEY
+        key = load_api_key()
     except AttributeError:
-        load_api_key()
-        key = scopus.MY_API_KEY
+        print("Error in loading your api key. Is it defined?")
     header = {'Accept': 'application/{}'.format(accept), 'X-ELS-APIKey': key}
     resp = requests.get(url, headers=header, params=params)
     resp.raise_for_status()
