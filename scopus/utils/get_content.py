@@ -83,23 +83,10 @@ def get_content(qfile, refresh, *args, **kwds):
     return content
 
 
-def load_api_key():
-    """Helper function to create file with API Key on the first run.
-    Function needs to be here because in __init__.py it causes problems
-    with RTFD.io.
+def load_api_key(env_var=None):
     """
-    SCOPUS_API_FILE = os.path.expanduser("~/.scopus/my_scopus.py")
-    with open(SCOPUS_API_FILE, "a+") as f:
-        f.seek(0)
-        exec(f.read(), globals())
-        try:
-            scopus.MY_API_KEY = MY_API_KEY
-        except NameError:
-            prompt = ("No API Key detected. Please enter a valid API Key "
-                      "obtained from http://dev.elsevier.com/myapikey.html: \n")
-            if sys.version_info >= (3, 0):
-                key = input(prompt)
-            else:
-                key = raw_input(prompt)
-            f.write('MY_API_KEY = "{}"'.format(key))
-            scopus.MY_API_KEY = key
+    Edited to allow api key from environment variable instead
+    """
+    if env_var:
+        return os.environ[env_var]
+    return os.environ["SCOPUS_API_KEY"]
